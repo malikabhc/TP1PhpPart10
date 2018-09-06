@@ -1,14 +1,6 @@
-<?php
-//Déclaration des variables regex
-$regexPhoneNumber = '/^[0-9]{10}$/';
-$regexNumber = '/^[0-9]$/';
-$regexName = '/^[a-zA-Zàáâãäåçèéêëìíîïðòóôõöùúûüýÿ\-]+$/';
-$regexDate = '/^[0-9]{2}[\/]{1}[0-9]{2}[\/]{1}[0-9]{4}/';
-$regexText = '/^[a-zA-Zàáâãäåçèéêëìíîïðòóôõöùúûüýÿ\-\ \.\,\?\:\!]+$/';
-$regexEmail = '/^[A-z0-9._%+-]+[\@]{1}[A-z0-9.-]+[\.]{1}[A-z]{2,4}$/';
-$regexAddress = '/^[A-z\ 0-9\']+$/';
-$regexNumberLetter = '/^[0-9A-z]+$/';
-?>
+<?php 
+// Include sert à lié le fichier contenant tout le code PHP controllerForm.php au fichier index.php - Il agit comme si tout le code était insérer au début de cette page.
+include 'controllerForm.php' ?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,87 +13,52 @@ $regexNumberLetter = '/^[0-9A-z]+$/';
     <body>
         <div class="container">
             <h1 class="text-center">Formulaire de candidature</h1>
-            <?php if (isset($_POST['submit'])) { ?>
-                <p><?php //Vérification de la regex concernée pour la case lastname
-                if (preg_match($regexName, $_POST['lastname'])) { ?> 
-                        Nom : <?= $_POST['lastname']; ?>
-                    <?php } else { // Message d'erreur qui s'affiche si le champ n'est pas complété ou que le texte entré ne respecte pas la regex
-                        echo 'Veuillez indiquer votre nom. '; } ?></p>
-                <p><?php if (preg_match($regexName, $_POST['firstname'])) { ?> 
-                        Prénom : <?= $_POST['firstname']; ?>
-                    <?php } else {
-                        echo 'Veuillez indiquer votre prénom. '; } ?></p>
-                <p><?php if (preg_match($regexDate, $_POST['dateOfBirth'])) { ?>
-                        Date de naissance : <?= $_POST['dateOfBirth']; ?>
-                    <?php } else {
-                        echo 'Incorrect : veuillez indiquer votre date de naissance. '; } ?></p>
-                <p><?php if(preg_match($regexText, $_POST['placeOfBirth'])) { ?>
-                        Pays de naissance : <?= $_POST['placeOfBirth']; ?>
-                    <?php } else {
-                        echo 'Veuillez indiquer votre pays de naissance. '; } ?></p>
-                <p><?php if (preg_match($regexText, $_POST['nationality'])) { ?>
-                        Nationalité : <?= $_POST['nationality']; ?>
-                    <?php } else {
-                        echo 'Veuillez indiquer votre nationalité. '; } ?></p>
-                <p><?php if (preg_match($regexText, $_POST['adress'])) { ?>
-                        Adresse : <?= $_POST['adress']; ?>
-                    <?php } else {
-                        echo 'Veuillez indiquer votre adresse. '; } ?></p>
-                <p><?php if (preg_match($regexEmail, $_POST['email'])) { ?>
-                        Email : <?= $_POST['email']; ?>
-                    <?php } else {
-                        echo 'Veuillez indiquer un email correct. '; } ?></p>
-                <p><?php if (preg_match($regexPhoneNumber, $_POST['numberPhone'])) { ?>
-                        Numéro de téléphone : <?= $_POST['numberPhone']; ?>
-                    <?php } else {
-                        echo 'Veuillez indiquer un numéro de téléphone correct. '; } ?></p>
-                <p><?php if (!empty($_POST['degree'])) { ?>
-                        Diplôme : <?= $_POST['degree']; ?>
-                    <?php } else {
-                        echo 'Veuillez indiquer votre niveau de diplôme. '; } ?></p>
-                <p><?php if (preg_match($regexNumberLetter, $_POST['poleEmploiNumber'])) { ?>
-                       Numéro Pôle Emploi : <?= $_POST['poleEmploiNumber']; ?>
-                    <?php } else {
-                        echo 'Veuillez indiquer votre numéro Pôle Emploi. '; } ?></p>
-                <p><?php if (preg_match($regexNumber, $_POST['badgeNumber'])) { ?>
-                        Nombre de badge : <?= $_POST['badgeNumber']; ?>
-                    <?php } else {
-                        echo 'Veuillez indiquer votre nombre de badge. '; } ?></p>
-                <p><?php if (preg_match($regexText, $_POST['codecademyLink'])) { ?>
-                        Lien Codecademy : <?= $_POST['codecademyLink']; ?>
-                    <?php } else {
-                        echo 'Veuillez indiquer votre lien Codecademy. '; } ?></p>
-                <p><?php if (!empty($_POST['superhero'])) { ?>
-                        Si vous étiez un super héros/une super héroïne, qui seriez-vous et pourquoi ? <?= $_POST['superhero']; ?>
-                    <?php } else {
-                        echo 'Veuillez répondre à la question "Si vous étiez un super héros/une super héroïne, qui seriez-vous et pourquoi ?" '; } ?></p>
-                <p><?php if (!empty($_POST['hacks'])) { ?>
-                        Racontez-nous un de vos "hacks" (pas forcément technique ou informatique) : <?= $_POST['hacks']; ?>
-                    <?php } else {
-                        echo 'Veuillez répondre à la question "Racontez-nous un de vos "hacks" (pas forcément technique ou informatique)" '; } ?></p>
-                <p><?php if (!empty($_POST['numberPhone'])) { ?>
-                        Avez vous déjà eu une expérience avec la programmation et/ou l\'informatique avant de remplir ce formulaire ?"<?= $_POST['numberPhone']; ?>
-                    <?php } else {
-                        echo 'Veuillez répondre à la question "Avez vous déjà eu une expérience avec la programmation et/ou l\'informatique avant de remplir ce formulaire ?"'; } ?></p>
-            <?php } else { //Le formulaire ne s'affiche pas quand le formulaire est envoyé pour afficher les données entrées ou les messages d'erreurs ?>
+        <?php // Affiche les résultats si aucune erreur n'est comptabilisé dans le tableau $formError
+        if (isset($_POST['submit']) && (count($formError) == 0)) { ?>
+            <p><?= $lastName ?></p>
+            <p><?= $firstName ?></p>
+            <p><?= $dateOfBirth ?></p>
+            <p><?= $countryOfBirth ?></p>
+            <p><?= $nationality ?></p>
+            <p><?= $address ?></p>
+            <p><?= $mail ?></p>
+            <p><?= $phone ?></p>
+            <p><?= $degree ?></p>
+            <p><?= $numberPE ?></p>
+            <p><?= $badge ?></p>
+            <p><?= $codeAca ?></p>
+            <p><?= $super ?></p>
+            <p><?= $hacks ?></p>
+            <p><?= $exp ?></p>
+        <?php // Sinon affiche le formulaire
+        } else { ?>
             <form action="index.php" method="POST">
                 <div class="form-group">
                     <label for="lastname">Nom</label>
-                    <input type="text" class="form-control form-control-lg" name="lastname" placeholder="Nom" />
+                    <input type="text" class="form-control form-control-lg" name="lastname" placeholder="Nom" value="<?= // Garde en mémoire la saisie des champs cela évite de devoir retaper tout le formulaire s'il y a une erreur sur un seul champ
+                    isset($lastname) ? $lastname : '' ?>"/>
+                    <p class="text-danger"><?= isset($formError['lastname']) ? $formError['lastname'] : ''; ?></p>
                     <label for="firstname">Prénom</label>
-                    <input type="text" class="form-control form-control-lg" name="firstname" placeholder="Prénom" />
+                    <input type="text" class="form-control form-control-lg" name="firstname" placeholder="Prénom" value="<?= isset($firstname) ? $firstname : '' ?>" />
+                    <p class="text-danger"><?= isset($formError['firstname']) ? $formError['firstname'] : ''; ?></p>
                     <label for="dateOfBirth">Date de naissance</label>
-                    <input type="date" class="form-control form-control-lg" name="dateOfBirth" placeholder="Date de naissance" />
+                    <input type="date" class="form-control form-control-lg" name="dateOfBirth" placeholder="Date de naissance" value="<?= isset($dateOfBirth) ? $dateOfBirth : '' ?>" />
+                    <p class="text-danger"><?= isset($formError['dateOfBirth']) ? $formError['dateOfBirth'] : ''; ?></p>
                     <label for="placeOfBirth">Pays de naissance</label>
-                    <input type="text" class="form-control form-control-lg" name="placeOfBirth" placeholder="Pays de naissance"/>
+                    <input type="text" class="form-control form-control-lg" name="placeOfBirth" placeholder="Pays de naissance" value="<?= isset($placeOfBirth) ? $placeOfBirth : '' ?>" />
+                    <p class="text-danger"><?= isset($formError['placeOfBirth']) ? $formError['placeOfBirth'] : ''; ?></p>
                     <label for="nationality">Nationalité</label>
-                    <input type="text" class="form-control form-control-lg" name="nationality" placeholder="Nationalité" />
-                    <label for="adress">Adresse</label>
-                    <textarea class="form-control form-control-lg" name="adress"></textarea>
+                    <input type="text" class="form-control form-control-lg" name="nationality" placeholder="Nationalité" value="<?= isset($nationality) ? $nationality : '' ?>" />
+                    <p class="text-danger"><?= isset($formError['nationality']) ? $formError['nationality'] : ''; ?></p>
+                    <label for="address">Adresse</label>
+                    <textarea class="form-control form-control-lg" name="address"><?= isset($address) ? $address : '' ?></textarea>
+                    <p class="text-danger"><?= isset($formError['address']) ? $formError['address'] : ''; ?></p>
                     <label for="email">Email</label>
-                    <input type="email" class="form-control form-control-lg" name="email" placeholder="Email" />
+                    <input type="email" class="form-control form-control-lg" name="email" placeholder="Email" value="<?= isset($email) ? $email : '' ?>" />
+                    <p class="text-danger"><?= isset($formError['email']) ? $formError['email'] : ''; ?></p>
                     <label for="numberPhone">Numéro de téléphone</label>
-                    <input type="number" class="form-control form-control-lg" name="numberPhone" placeholder="Téléphone" />
+                    <input type="number" class="form-control form-control-lg" name="numberPhone" placeholder="Téléphone" value="<?= isset($numberPhone) ? $numberPhone : '' ?>" />
+                    <p class="text-danger"><?= isset($formError['numberPhone']) ? $formError['numberPhone'] : ''; ?></p>
                     <label for="degree">Diplôme</label>
                     <select class="form-control form-control-lg" name="degree">
                         <option selected disabled>Veuillez sélectionner votre niveau de diplôme</option>
@@ -111,21 +68,27 @@ $regexNumberLetter = '/^[0-9A-z]+$/';
                         <option>Bac +3 ou supérieur</option>
                     </select>
                     <label for="poleEmploiNumber">Numéro Pôle Emploi</label>
-                    <input class="form-control form-control-lg" name="poleEmploiNumber" placeholder="Numéro Pôle Emploi"/>
+                    <input class="form-control form-control-lg" name="poleEmploiNumber" placeholder="Numéro Pôle Emploi" value="<?= isset($poleEmploiNumber) ? $poleEmploiNumber : '' ?>" />
+                    <p class="text-danger"><?= isset($formError['poleEmploiNumber']) ? $formError['poleEmploiNumber'] : ''; ?></p>
                     <label for="badgeNumber">Nombre de badge</label>
-                    <input type="number" class="form-control form-control-lg" name="badgeNumber" placeholder="Nombre de badge"/>
+                    <input type="number" class="form-control form-control-lg" name="badgeNumber" placeholder="Nombre de badge" value="<?= isset($badgeNumber) ? $badgeNumber : '' ?>"/>
+                    <p class="text-danger"><?= isset($formError['badgeNumber']) ? $formError['badgeNumber'] : ''; ?></p>
                     <label for="codecademyLink">Lien Codecademy</label>
-                    <input class="form-control form-control-lg" name="codecademyLink" placeholder="Lien Codecademy"/>
+                    <input class="form-control form-control-lg" name="codecademyLink" placeholder="Lien Codecademy" value="<?= isset($codecademyLink) ? $codecademyLink : '' ?>" />
+                    <p class="text-danger"><?= isset($formError['codecademyLink']) ? $formError['codecademyLink'] : ''; ?></p>
                     <label for="superhero">Si vous étiez un super héros/une super héroïne, qui seriez-vous et pourquoi ?</label>
-                    <textarea class="form-control form-control-lg" name="superhero"></textarea>
+                    <textarea class="form-control form-control-lg" name="superhero"><?= isset($superhero) ? $superhero : '' ?></textarea>
+                    <p class="text-danger"><?= isset($formError['superhero']) ? $formError['superhero'] : ''; ?></p>
                     <label for="hacks"> Racontez-nous un de vos "hacks" (pas forcément technique ou informatique)</label>
-                    <textarea class="form-control form-control-lg" name="hacks"></textarea>
+                    <textarea class="form-control form-control-lg" name="hacks"><?= isset($hacks) ? $hacks : '' ?></textarea>
+                    <p class="text-danger"><?= isset($formError['hacks']) ? $formError['hacks'] : ''; ?></p>
                     <label for="experience" class="mt-3">Avez vous déjà eu une expérience avec la programmation et/ou l'informatique avant de remplir ce formulaire ?</label>
-                    <textarea class="form-control form-control-lg" name="experience"></textarea>
+                    <textarea class="form-control form-control-lg" name="experience"><?= isset($experience) ? $experience : '' ?></textarea>
+                    <p class="text-danger"><?= isset($formError['experience']) ? $formError['experience'] : ''; ?></p>
                     <input type="submit" class="form-control form-control-lg mt-3" name="submit" id="submit" value="Validez votre candidature !"/>
                 </div>
             </form>
-        <?php } ?>
+            <?php } ?>
     </div>
 </body>
 </html>
